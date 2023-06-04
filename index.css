@@ -40,3 +40,7 @@
 .res-logo {
     width:240px;
 }
+.filter-btn{
+    margin: 10px;
+    cursor: pointer;
+}
