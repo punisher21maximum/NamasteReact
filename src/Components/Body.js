@@ -44,8 +44,8 @@ let listOfRest = [    {
   }];
 
   
-  const Body = () => {
-    const [restList, setRestList] = useState(resList);
+const Body = () => {
+    const [restList, setRestList] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -58,6 +58,10 @@ let listOfRest = [    {
 
         setRestList(json.data.cards[2].data.data.cards);
     };
+
+    if (restList.length === 0){
+        return <h1>Loading...</h1>
+    }
 
     return (
     <div className="body">
