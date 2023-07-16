@@ -1,6 +1,7 @@
 import { useEffect, useState, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import resList from "../utils/mockData";
+import Schimmer from "./Schimmer";
 
 
 let listOfRest = [    {
@@ -60,7 +61,7 @@ const Body = () => {
     };
 
     if (restList.length === 0){
-        return <h1>Loading...</h1>
+        return <Schimmer/>;
     }
 
     return (

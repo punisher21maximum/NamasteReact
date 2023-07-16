@@ -44,3 +44,13 @@
     margin: 10px;
     cursor: pointer;
 }
+.schimmer-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.schimmer-card{
+    margin:30px;
+    width:200px;
+    height:400px;
+    background-color: lightgray;
+}
