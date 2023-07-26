@@ -47,6 +47,8 @@ let listOfRest = [    {
   
 const Body = () => {
     const [restList, setRestList] = useState([]);
+    const [filteredRestList, setFilteredRestList] = useState([]);
+    const [searchValue, setSearchValue] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -58,13 +60,10 @@ const Body = () => {
         console.log(json);
 
         setRestList(json.data.cards[2].data.data.cards);
+        setFilteredRestList(json.data.cards[2].data.data.cards);
     };
 
-    if (restList.length === 0){
-        return <Schimmer/>;
-    }
-
-    return (
+    return restList.length === 0 ? <Schimmer/> : (
     <div className="body">
 
         {/* <div className="search">Search Nar</div> */}
@@ -74,9 +73,24 @@ const Body = () => {
             setRestList(filteredList);
         }} >Top Rated Restaurants</button>
 
+        <input name="myInput" value={searchValue} onChange={(event)=>{
+          console.log("hello");
+          setSearchValue(event.target.value);
+          console.log(event.target.value, searchValue);
+          }} />
+        <button className="search-btn" onClick={() => {
+
+          filteredList = restList.filter((res)=>{
+            console.log(res.data.name, res.data.name.toLowerCase().includes(searchValue.toLowerCase()))
+            return res.data.name.toLowerCase().includes(searchValue.toLowerCase());
+          });
+          
+          setFilteredRestList(filteredList);
+        }}>Search Button</button>
+
         
         <div className="res-container">
-        {restList.map((resDatum) => (
+        {filteredRestList.map((resDatum) => (
             <RestaurantCard key={resDatum.data.id} resData={resDatum} />
         ))}
 
