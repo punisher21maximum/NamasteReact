@@ -59,8 +59,14 @@ const Body = () => {
         const json = await data.json();
         console.log(json);
 
-        setRestList(json.data.cards[2].data.data.cards);
-        setFilteredRestList(json.data.cards[2].data.data.cards);
+        setRestList(
+          json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+        );
+        setFilteredRestList(
+          json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+        );
+        // console.log(json)
+        // console.log(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
     };
 
     return restList.length === 0 ? <Schimmer/> : (
@@ -69,7 +75,7 @@ const Body = () => {
         {/* <div className="search">Search Nar</div> */}
 
         <button className="filter-btn" onClick={() => {
-            filteredList=restList.filter((res)=>parseFloat(res.data.avgRating)>4);
+            filteredList=restList.filter((res)=>parseFloat(res.info.avgRating)>4);
             setRestList(filteredList);
         }} >Top Rated Restaurants</button>
 
@@ -81,8 +87,8 @@ const Body = () => {
         <button className="search-btn" onClick={() => {
 
           filteredList = restList.filter((res)=>{
-            console.log(res.data.name, res.data.name.toLowerCase().includes(searchValue.toLowerCase()))
-            return res.data.name.toLowerCase().includes(searchValue.toLowerCase());
+            console.log(res.info.name, res.info.name.toLowerCase().includes(searchValue.toLowerCase()))
+            return res.info.name.toLowerCase().includes(searchValue.toLowerCase());
           });
           
           setFilteredRestList(filteredList);
@@ -91,7 +97,7 @@ const Body = () => {
         
         <div className="res-container">
         {filteredRestList.map((resDatum) => (
-            <RestaurantCard key={resDatum.data.id} resData={resDatum} />
+            <RestaurantCard key={resDatum.info.id} resData={resDatum} />
         ))}
 
         {/* <RestaurantCard resData={resData[3]}/> */}
