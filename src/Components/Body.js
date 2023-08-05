@@ -2,9 +2,10 @@ import { useEffect, useState, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import resList from "../utils/mockData";
 import Schimmer from "./Schimmer";
+import { Link } from "react-router-dom";
 
-
-let listOfRest = [    {
+let listOfRest = [
+  {
     type: "restaurant",
     data: {
       type: "F",
@@ -42,68 +43,95 @@ let listOfRest = [    {
       avgRating: "3.9",
     },
     subtype: "basic",
-  }];
+  },
+];
 
-  
 const Body = () => {
-    const [restList, setRestList] = useState([]);
-    const [filteredRestList, setFilteredRestList] = useState([]);
-    const [searchValue, setSearchValue] = useState([]);
+  const [restList, setRestList] = useState([]);
+  const [filteredRestList, setFilteredRestList] = useState([]);
+  const [searchValue, setSearchValue] = useState([]);
 
-    useEffect(() => {
-        fetchData();
-    }, [])
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    const fetchData = async () => {
-        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.611665&lng=76.97867800000002&page_type=DESKTOP_WEB_LISTING");
-        const json = await data.json();
-        console.log(json);
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.611665&lng=76.97867800000002&page_type=DESKTOP_WEB_LISTING"
+    );
+    const json = await data.json();
+    console.log(json);
 
-        setRestList(
-          json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-        );
-        setFilteredRestList(
-          json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-        );
-        // console.log(json)
-        // console.log(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-    };
+    setRestList(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    setFilteredRestList(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    // console.log(json)
+    console.log(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+  };
 
-    return restList.length === 0 ? <Schimmer/> : (
+  return restList.length === 0 ? (
+    <Schimmer />
+  ) : (
     <div className="body">
+      {/* Filter 4Star button */}
+      <button
+        className="filter-btn"
+        onClick={() => {
+          filteredList = restList.filter(
+            (res) => parseFloat(res.info.avgRating) > 4
+          );
+          setRestList(filteredList);
+        }}
+      >
+        Top Rated Restaurants
+      </button>
 
-        {/* <div className="search">Search Nar</div> */}
-
-        <button className="filter-btn" onClick={() => {
-            filteredList=restList.filter((res)=>parseFloat(res.info.avgRating)>4);
-            setRestList(filteredList);
-        }} >Top Rated Restaurants</button>
-
-        <input name="myInput" value={searchValue} onChange={(event)=>{
+      {/* Search bar */}
+      <input
+        name="myInput"
+        value={searchValue}
+        onChange={(event) => {
           console.log("hello");
           setSearchValue(event.target.value);
           console.log(event.target.value, searchValue);
-          }} />
-        <button className="search-btn" onClick={() => {
-
-          filteredList = restList.filter((res)=>{
-            console.log(res.info.name, res.info.name.toLowerCase().includes(searchValue.toLowerCase()))
-            return res.info.name.toLowerCase().includes(searchValue.toLowerCase());
+        }}
+      />
+      <button
+        className="search-btn"
+        onClick={() => {
+          filteredList = restList.filter((res) => {
+            console.log(
+              res.info.name,
+              res.info.name.toLowerCase().includes(searchValue.toLowerCase())
+            );
+            return res.info.name
+              .toLowerCase()
+              .includes(searchValue.toLowerCase());
           });
-          
-          setFilteredRestList(filteredList);
-        }}>Search Button</button>
 
-        
-        <div className="res-container">
+          setFilteredRestList(filteredList);
+        }}
+      >
+        Search Button
+      </button>
+
+      {/* Display Restaurants List */}
+      <div className="res-container">
         {filteredRestList.map((resDatum) => (
-            <RestaurantCard key={resDatum.info.id} resData={resDatum} />
+          <Link to={"/restaurants/" + resDatum.info.id} key={resDatum.info.id}>
+            <RestaurantCard resData={resDatum} />
+          </Link>
         ))}
 
         {/* <RestaurantCard resData={resData[3]}/> */}
-        </div>
+      </div>
     </div>
-    );
+  );
 };
 
-  export default Body;
+export default Body;
