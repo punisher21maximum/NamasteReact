@@ -3,6 +3,7 @@ import RestaurantCard from "./RestaurantCard";
 import resList from "../utils/mockData";
 import Schimmer from "./Schimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 let listOfRest = [
   {
@@ -74,11 +75,16 @@ const Body = () => {
     // );
   };
 
+  const onlineStatus = useOnlineStatus();
+
   return restList.length === 0 ? (
     <Schimmer />
   ) : (
     <div className="body">
       {/* Filter 4Star button */}
+
+      <h1>User is {onlineStatus ? "Online" : "Offline"}</h1>
+
       <button
         className="filter-btn"
         onClick={() => {
