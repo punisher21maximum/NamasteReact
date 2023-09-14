@@ -21,6 +21,7 @@ const Header = () => {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About Us</Link></li>
           <li><Link to="/contact">Contact Us</Link></li>
+          <li><Link to="/grocery">Grocery</Link></li>
           {isLoggedIn ? <li>Welcome Vishal {onlineStatus ? "🟢" : "🔴"}</li> : <li>See you soon</li>}
           <button className="login-btn" onClick={()=>(setIsLoggedIn(!isLoggedIn))}>
             {isLoggedIn ? <li>Logout</li> : <li>Login</li>}
